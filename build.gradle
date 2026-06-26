@@ -146,4 +146,7 @@ task(eventDeploy) {
         }
     }
 }
-createVersionFile.dependsOn(eventDeploy)
+
+tasks.matching { it.name == "createVersionFile" || it.name == "generateVersionFile" }.configureEach {
+    dependsOn(eventDeploy)
+}
