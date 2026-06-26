@@ -20,7 +20,7 @@ public enum RobotState {
      * <ul>
      *   <li>Swerve: Control field-relative con joystick</li>
      *   <li>Intake: Stow (guardado)</li>
-     *   <li>Shooter/Channeler: Inactivos</li>
+     *   <li>Shooter/Chaneler: Inactivos</li>
      * </ul>
      * Se utiliza para navegar por el campo y posicionarse antes de otras operaciones.
      */
@@ -34,9 +34,9 @@ public enum RobotState {
      * <ul>
      *   <li>Swerve:  Control field-relative con joystick</li>
      *   <li>Intake: Activo en modo GRAB (spinners girando hacia adentro)</li>
-     *   <li>Shooter/Channeler: Inactivos</li>
+     *   <li>Shooter/Chaneler: Inactivos</li>
      * </ul>
-     * El fuel recolectado se transporta automáticamente hacia el shooter via channeler.
+     * El fuel recolectado se transporta automáticamente hacia el shooter via Chaneler.
      */
     INTAKE,
     
@@ -49,7 +49,7 @@ public enum RobotState {
      *   <li>Swerve: Control con aiming automático</li>
      *   <li>Intake: Stow (guardado)</li>
      *   <li>Shooter: Activo calculando velocidad basada en distancia</li>
-     *   <li>Channeler: Sincronizado con velocidad del shooter</li>
+     *   <li>Chaneler: Sincronizado con velocidad del shooter</li>
      * </ul>
      * El robot puede usar visión con AprilTags para calcular distancia y velocidad automáticamente.
      */
@@ -63,7 +63,7 @@ public enum RobotState {
      * <ul>
      *   <li>Swerve: Va a la posicion de escalada</li>
      *   <li>Climber: Ejecutando secuencia de escalada (RISE → EXTEND → PULL)</li>
-     *   <li>Intake/Shooter/Channeler: Inactivos</li>
+     *   <li>Intake/Shooter/Chaneler: Inactivos</li>
      * </ul>
      * Utiliza posiciones predefinidas en {@link frc.robot.subsystems.climber.ClimberConstants}
      * para una escalada confiable y repetible.

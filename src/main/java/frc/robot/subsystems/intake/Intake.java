@@ -5,7 +5,6 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -70,18 +69,6 @@ public class Intake extends SubsystemBase{
      */
     public Command stowCommand() {
         return new Move(IntakeConfig.STOW_ANGLE_RAD, IntakeConfig.STOW_SPIN_RPS, io, this);
-    }
-
-    /**
-     * Comando de prueba para los motores de giro.
-     * 
-     * Mantiene el pivote en su posición actual y ejecuta los spinners
-     * a velocidad de grabbing para testing.
-     *
-     * @return Comando de movimiento para prueba de spinners
-     */
-    public Command testRollersCommand() {
-        return new Move(io.getInputs().intakeData.positionPivot(), IntakeConfig.GRAB_SPIN_RPS, io, this);
     }
 
     /**

@@ -27,6 +27,12 @@ import static edu.wpi.first.units.Units.Kilograms;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Volts;
 
+import frc.robot.subsystems.chaneler.Chaneler;
+import frc.robot.subsystems.chaneler.ChanelerIO;
+import frc.robot.subsystems.chaneler.ChanelerIOHardware;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
+import frc.robot.subsystems.indexer.IndexerIOHardware;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
@@ -50,7 +56,7 @@ import frc.robot.utils.TejuinoBoard;
  * Gestor centralizado de subsistemas y estados del robot.
  *
  * Coordina el funcionamiento de todos los subsistemas (swerve, intake, shooter,
- * channeler, climber) y administra las transiciones entre estados operacionales
+ * Chaneler, climber) y administra las transiciones entre estados operacionales
  * (TRAVEL, INTAKE, SHOOT, CLIMB, TEST).
  * 
  * Mantiene el estado actual del robot y gestiona las asistencias de conducción
@@ -63,6 +69,8 @@ public final class SubsystemManager {
 
     private final Intake intake;
     private final Shooter shooter;
+    private final Chaneler chaneler;
+    private final Indexer indexer;
 
     /** Controlador de la placa Tejuino para LEDs y feedback visual. */
     //private final TejuinoBoard tejuino;
@@ -96,6 +104,8 @@ public final class SubsystemManager {
         final GyroIO gyroIO;
         final SwerveModuleIO[] moduleIOs;
         final ShooterIO shooterIO;
+        final ChanelerIO chanelerIO;
+        final IndexerIO indexerIO;
 
         this.isSimulation = isSimulation;
 
@@ -138,7 +148,6 @@ public final class SubsystemManager {
             final ShooterIOSim shooterSim = new ShooterIOSim(driveSim);
 
             shooterIO = shooterSim;
-
             intakeIO = new IntakeIOSim(driveSim, shooterSim);
             gyroIO = new GyroIOSim(driveSim);
 
@@ -157,8 +166,15 @@ public final class SubsystemManager {
             };
         }
 
+        chanelerIO = new ChanelerIOHardware();
+        indexerIO = new IndexerIOHardware();
+
+
         this.shooter = new Shooter(shooterIO);
         this.intake = new Intake(intakeIO);
+        this.chaneler = new Chaneler(chanelerIO);
+        this.indexer = new Indexer(indexerIO);
+
         this.alliance = alliance;
 
         this.poseTracker = new PoseTracker(gyroIO, moduleIOs, alliance, new Pose2d(3.570, 7.427, new Rotation2d(0)));
@@ -316,7 +332,9 @@ public final class SubsystemManager {
                             //tejuino.all_leds_blue(2);
                         }),
                         intake.stowCommand(),
-                        shooter.stopCommand()
+                        shooter.stopCommand(),
+                        chaneler.stopCommand(),
+                        indexer.stopCommand()
 
                     )
                 );
@@ -334,7 +352,9 @@ public final class SubsystemManager {
                             //tejuino.all_leds_green(2);
                         }),
                         intake.grabCommand(),
-                        shooter.stopCommand()
+                        shooter.stopCommand(),
+                        chaneler.stopCommand(),
+                        indexer.stopCommand()
                     )
                 );
                 break;
@@ -354,7 +374,9 @@ public final class SubsystemManager {
                         shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance).andThen(
                             shooter.releaseCommand(calculateAimPose().getTranslation().getDistance(
                                 driveSim.getSimulatedDriveTrainPose().getTranslation()
-                            ))
+                            )),
+                            chaneler.feedCommand(),
+                            indexer.feedCommand()
                         )
                     )
                 );
