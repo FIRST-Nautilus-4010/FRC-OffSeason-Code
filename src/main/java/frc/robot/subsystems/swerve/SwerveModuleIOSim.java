@@ -99,11 +99,11 @@ public class SwerveModuleIOSim implements SwerveModuleIO {
 
         this.driveMotor = moduleSimulation
                 .useGenericMotorControllerForDrive()
-                .withCurrentLimit(Amps.of(60));
+                .withCurrentLimit(Amps.of(120));
 
         this.steerMotor = moduleSimulation
                 .useGenericControllerForSteer()
-                .withCurrentLimit(Amps.of(20));
+                .withCurrentLimit(Amps.of(40));
 
         this.drivePID = new PIDController(
                 SwerveConfig.VEL_KP / (2.0 * Math.PI),

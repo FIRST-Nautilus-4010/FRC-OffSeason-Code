@@ -97,12 +97,10 @@ public class IndexerIOHardware implements IndexerIO {
 
     private void configureMotors() {
         indexerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        indexerConfig.CurrentLimits.SupplyCurrentLimit       = 30;
+        indexerConfig.CurrentLimits.SupplyCurrentLimit       = 40;
         indexerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        indexerConfig.CurrentLimits.StatorCurrentLimit       = 60;
-        indexerConfig.TorqueCurrent.PeakForwardTorqueCurrent  =  60;
-        indexerConfig.TorqueCurrent.PeakReverseTorqueCurrent  = -60;
-        indexerConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        indexerConfig.CurrentLimits.StatorCurrentLimit       = 70;
+        indexerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         indexerConfig.MotorOutput.Inverted    = InvertedValue.CounterClockwise_Positive;
         indexerConfig.Feedback.SensorToMechanismRatio = IndexerConfig.INDEXER_REDUCTION;
     }

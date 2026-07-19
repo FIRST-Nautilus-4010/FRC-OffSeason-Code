@@ -77,12 +77,10 @@ public class ChanelerIOHardware implements ChanelerIO {
 
     private void configureMotor() {
         chanelerConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
-        chanelerConfig.CurrentLimits.SupplyCurrentLimit       = 30;
+        chanelerConfig.CurrentLimits.SupplyCurrentLimit       = 40;
         chanelerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
-        chanelerConfig.CurrentLimits.StatorCurrentLimit       = 60;
-        chanelerConfig.TorqueCurrent.PeakForwardTorqueCurrent  =  60;
-        chanelerConfig.TorqueCurrent.PeakReverseTorqueCurrent  = -60;
-        chanelerConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        chanelerConfig.CurrentLimits.StatorCurrentLimit       = 70;
+        chanelerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         chanelerConfig.MotorOutput.Inverted    = InvertedValue.CounterClockwise_Positive;
         chanelerConfig.Feedback.SensorToMechanismRatio = ChanelerConfig.CHANELER_REDUCTION;
     }

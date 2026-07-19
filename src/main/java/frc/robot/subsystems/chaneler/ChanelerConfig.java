@@ -6,16 +6,16 @@ public class ChanelerConfig {
     // CAN ID
     // --------------------------------------------------------------------
 
-    public static final int CHANELER_TALONFX_ID = 0; // TODO: cambiar al ID real
+    public static final int CHANELER_TALONFX_ID = 5;
 
     // --------------------------------------------------------------------
     // VELOCIDADES
     // --------------------------------------------------------------------
 
-    /** Velocidad para alimentar la nota hacia el shooter (RPS) */
-    public static final double FEED_VELOCITY_RPS = 30.0; // TODO: ajustar
+    /** Velocidad para alimentar la fuel hacia el shooter (RPS) */
+    public static final double FEED_VELOCITY_RPS = 71.67; // TODO: ajustar
 
-    /** Velocidad para devolver la nota en dirección contraria (RPS) */
+    /** Velocidad para devolver la fuel en dirección contraria (RPS) */
     public static final double REVERSE_VELOCITY_RPS = -20.0; // TODO: ajustar
 
     // --------------------------------------------------------------------
@@ -52,8 +52,8 @@ public class ChanelerConfig {
     // --------------------------------------------------------------------
 
     /** Aceleración máxima en MotionMagic (rot/s²) */
-    public static final double MAGIC_MOTION_VELOCITY_ACCELERATION = 0.0; // TODO: tunar
+    public static final double MAGIC_MOTION_VELOCITY_ACCELERATION = 1000; // TODO: tunear
 
     /** Jerk máximo en MotionMagic (rot/s³) */
-    public static final double MAGIC_MOTION_VELOCITY_JERK = 0.0; // TODO: tunar
+    public static final double MAGIC_MOTION_VELOCITY_JERK = 10000; // TODO: tunear
 }

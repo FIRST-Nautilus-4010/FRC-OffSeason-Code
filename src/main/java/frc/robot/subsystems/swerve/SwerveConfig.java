@@ -21,22 +21,22 @@ public final class SwerveConfig {
     // --------------------------------------------------------------------
 
     /** CAN ID del motor de tracción del módulo delantero izquierdo. */
-    public static final int FL_PWR = 4;
+    public static final int FL_PWR = 1;
     /** CAN ID del motor de tracción del módulo delantero derecho. */
     public static final int FR_PWR = 3;
     /** CAN ID del motor de tracción del módulo trasero izquierdo. */
-    public static final int BL_PWR = 2;
+    public static final int BL_PWR = 5;
     /** CAN ID del motor de tracción del módulo trasero derecho. */
-    public static final int BR_PWR = 1;
+    public static final int BR_PWR = 7;
 
     /** CAN ID del motor de giro del módulo delantero izquierdo. */
-    public static final int FL_STR = 8;
+    public static final int FL_STR = 2;
     /** CAN ID del motor de giro del módulo delantero derecho. */
-    public static final int FR_STR = 7;
+    public static final int FR_STR = 4;
     /** CAN ID del motor de giro del módulo trasero izquierdo. */
     public static final int BL_STR = 6;
     /** CAN ID del motor de giro del módulo trasero derecho. */
-    public static final int BR_STR = 5;
+    public static final int BR_STR = 8;
 
     /** CAN ID del encoder absoluto del módulo delantero izquierdo. */
     public static final int FL_ENC = 12;
@@ -171,13 +171,13 @@ public final class SwerveConfig {
     // --------------------------------------------------------------------
 
     /** Aceleración máxima hacia adelante (m/s²) usada en el limitador. */
-    public static final double MAX_FORDWARD_ACCEL = 9.6;
+    public static final double MAX_FORDWARD_ACCEL = 11.2;
 
     /** Aceleración máxima frontal (m/s²) en el modelo de estabilidad. */
-    public static final double MAX_FRONT_ACCEL = 9.6;
+    public static final double MAX_FRONT_ACCEL = 11.2;
 
     /** Aceleración máxima lateral (m/s²) en el modelo de estabilidad. */
-    public static final double MAX_SIDE_ACCEL = 9.6;
+    public static final double MAX_SIDE_ACCEL = 11.2;
 
     /**
      * Coeficiente de fricción efectivo rueda-suelo.

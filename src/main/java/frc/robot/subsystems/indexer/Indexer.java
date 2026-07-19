@@ -35,7 +35,7 @@ public class Indexer extends SubsystemBase {
     // --------------------------------------------------------------------
 
     /**
-     * Comando para alimentar la nota hacia el chaneler.
+     * Comando para alimentar la fuel hacia el chaneler.
      *
      * @return Comando que mueve el indexer a {@link IndexerConfig#FEED_VELOCITY_RPS}
      */
@@ -44,7 +44,7 @@ public class Indexer extends SubsystemBase {
     }
 
     /**
-     * Comando para devolver la nota en dirección contraria.
+     * Comando para devolver la fuel en dirección contraria.
      *
      * @return Comando que mueve el indexer a {@link IndexerConfig#REVERSE_VELOCITY_RPS}
      */

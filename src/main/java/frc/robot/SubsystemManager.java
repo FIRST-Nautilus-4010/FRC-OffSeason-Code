@@ -128,7 +128,7 @@ public final class SubsystemManager {
                             Voltage.ofBaseUnits(SwerveConfig.VEL_KS, Volts),
                             Voltage.ofBaseUnits(SwerveConfig.POS_KS, Volts),
                             Meters.of(SwerveConfig.WHEEL_DIAMETER / 2.0),
-                            KilogramSquareMeters.of(0.062),
+                            KilogramSquareMeters.of(0.1),
                             SwerveConfig.FRICTION_COF
                         )
                     )   

@@ -104,9 +104,7 @@ public class ShooterIOHardware implements ShooterIO {
         spinConfig.CurrentLimits.SupplyCurrentLimit       = 40;
         spinConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         spinConfig.CurrentLimits.StatorCurrentLimit       = 120;
-        spinConfig.TorqueCurrent.PeakForwardTorqueCurrent  =  120;
-        spinConfig.TorqueCurrent.PeakReverseTorqueCurrent  = -120;
-        spinConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast; // Shooter suele ir en Coast
+        spinConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         spinConfig.MotorOutput.Inverted    = InvertedValue.CounterClockwise_Positive;
         spinConfig.Feedback.SensorToMechanismRatio = ShooterConfig.SPIN_REDUCTION;
     }

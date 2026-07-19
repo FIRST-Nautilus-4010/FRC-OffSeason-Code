@@ -34,7 +34,7 @@ public class Chaneler extends SubsystemBase {
     // --------------------------------------------------------------------
 
     /**
-     * Comando para alimentar la nota hacia el shooter a velocidad de release.
+     * Comando para alimentar la fuel hacia el shooter a velocidad de release.
      *
      * @return Comando que mueve el chaneler a {@link ChanelerConfig#FEED_VELOCITY_RPS}
      */
@@ -43,7 +43,7 @@ public class Chaneler extends SubsystemBase {
     }
 
     /**
-     * Comando para devolver la nota en dirección contraria.
+     * Comando para devolver la fuel en dirección contraria.
      *
      * @return Comando que mueve el chaneler a {@link ChanelerConfig#REVERSE_VELOCITY_RPS}
      */

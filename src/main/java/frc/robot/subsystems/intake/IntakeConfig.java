@@ -17,13 +17,13 @@ public final class IntakeConfig {
     // ====================================================================
 
     /** ID del motor TalonFX del pivote izquierdo. */
-    public static final int PIVOT_L_TALONFX_ID = 2;
+    public static final int PIVOT_L_TALONFX_ID = 7;
     /** ID del motor TalonFX del pivote derecho. */
-    public static final int PIVOT_R_TALONFX_ID = 3;
+    public static final int PIVOT_R_TALONFX_ID = 6;
     /** ID del motor TalonFX del spinner izquierdo. */
-    public static final int SPIN_L_TALONFX_ID = 4;
+    public static final int SPIN_L_TALONFX_ID = 9;
     /** ID del motor TalonFX del spinner derecho. */
-    public static final int SPIN_R_TALONFX_ID = 5;
+    public static final int SPIN_R_TALONFX_ID = 8;
 
     // ====================================================================
     // LIMITES DE SOFTWARE
@@ -39,7 +39,7 @@ public final class IntakeConfig {
     // GEOMETRÍA Y CONVERSIONES
     // ====================================================================
 
-    public static final double PIVOT_REDUCTION = 75.0;
+    public static final double PIVOT_REDUCTION = 3.75;
     public static final double SPIN_REDUCTION = 1.6;
 
 
@@ -48,10 +48,13 @@ public final class IntakeConfig {
     // ====================================================================
 
     /** Velocidad de crucero de Motion Magic (rot/s). */
-    public static final double MAGIC_MOTION_VELOCITY_STR = 60;
+    public static final double MAGIC_MOTION_VELOCITY_STR = 93.33;
 
     /** Aceleración de Motion Magic (rot/s²). */
-    public static final double MAGIC_MOTION_ACCELERATION_STR = 600;
+    public static final double MAGIC_MOTION_ACCELERATION_STR = 933.3;
+
+    /** Jerk de Motion Magic (rot/s³). */
+    public static final double MAGIC_MOTION_JERK_STR = 9333.0;
 
     /** Ganancia kV del modo Motion Magic Expo (escala de velocidad). */
     public static final double MAGIC_MOTION_EXPO_KV_STR = 0.12;
@@ -122,12 +125,12 @@ public final class IntakeConfig {
 
     /** Ángulo del pivote para grabbing (radianes). */
     public static final double GRAB_ANGLE_RAD = 0;
-    /** Velocidad del spinner frontal para grabbing (RPS). */
-    public static final double GRAB_SPIN_RPS = -345.575192;
+    /** Velocidad del spinner frontal para grabbing (RAD). */
+    public static final double GRAB_SPIN_RPS = -366.5060529494;
 
     /** Ángulo del pivote para release (radianes). */
     public static final double RELEASE_ANGLE_RAD = 0;
-    /** Velocidad del spinner frontal para release (RPS). */
+    /** Velocidad del spinner frontal para release (RAD). */
     public static final double RELEASE_SPIN_RPS = 100.0;
 
     /** Ángulo del pivote en reposo (radianes). */

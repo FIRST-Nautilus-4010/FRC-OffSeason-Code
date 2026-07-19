@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase{
     }
 
     /**
-     * Comando para recoger una nota (grab).
+     * Comando para recoger una fuel (grab).
      * 
      * Posiciona el pivote y configura velocidades según 
      * {@link IntakeConstants#GRAB_ANGLE_RAD} y {@link IntakeConstants#GRAB_SPIN_RPS}.
@@ -48,7 +48,7 @@ public class Intake extends SubsystemBase{
     }
 
     /**
-     * Comando para expulsar una nota (release).
+     * Comando para expulsar una fuel (release).
      * 
      * Posiciona el pivote y configura velocidades según 
      * {@link IntakeConstants#RELEASE_ANGLE_RAD} y {@link IntakeConstants#RELEASE_SPIN_RPS}.
