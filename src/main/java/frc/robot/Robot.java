@@ -17,12 +17,14 @@ public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-
-  private final String GIT_SHA = "atun";
   private static final boolean replay = false; // Set to true to enable replay mode (runs from a log file)
 
   public Robot() {
-    Logger.recordMetadata("GitSHA", GIT_SHA);
+    Logger.recordMetadata("ProjectName", BuildConfig.MAVEN_NAME);
+    Logger.recordMetadata("BuildDate", BuildConfig.BUILD_DATE);
+    Logger.recordMetadata("GitSHA", BuildConfig.GIT_SHA);
+    Logger.recordMetadata("GitDate", BuildConfig.GIT_DATE);
+    Logger.recordMetadata("GitBranch", BuildConfig.GIT_BRANCH);
 
     if (isReal()) {
         Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
