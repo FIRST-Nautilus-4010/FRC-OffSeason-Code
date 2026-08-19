@@ -65,6 +65,8 @@ public final class ShooterConfig {
     /** Ángulo de lanzamiento del shooter (grados). */
     public static final double SHOOTER_ANGLE_DEGREES = 70;
 
+    public static final double SHOOTER_OPTIMUM_DISTANCE_METERS = 3.0;
+
     public static final InterpolatingDoubleTreeMap VEL_TABLE = new InterpolatingDoubleTreeMap();
 
     static {

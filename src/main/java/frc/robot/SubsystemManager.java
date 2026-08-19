@@ -11,6 +11,7 @@ import org.ironmaple.simulation.drivesims.configs.SwerveModuleSimulationConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Kilograms;
@@ -38,6 +40,7 @@ import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
 import frc.robot.subsystems.shooter.ShooterIOSim;
@@ -50,8 +53,6 @@ import frc.robot.subsystems.swerve.SwerveModuleIO;
 import frc.robot.subsystems.swerve.SwerveModuleIOHardware;
 import frc.robot.subsystems.swerve.SwerveModuleIOSim;
 import frc.robot.subsystems.swerve.commands.Drive;
-import frc.robot.utils.TejuinoBoard;
-
 /**
  * Gestor centralizado de subsistemas y estados del robot.
  *
@@ -83,11 +84,17 @@ public final class SubsystemManager {
 
     /** Pose calculada para aiming automático. */
     Pose2d aimPose = new Pose2d(0, 0, new Rotation2d(0));
+    Translation2d shootPose = new Translation2d(0, 0);
     
     /** Publisher de NetworkTables para la pose de aiming. */
     StructPublisher<Pose2d> aimPosePublisher = 
         NetworkTableInstance.getDefault()
                     .getStructTopic("Aim Pose", Pose2d.struct)
+                    .publish();
+
+    StructPublisher<Pose2d> shootPosePublisher = 
+        NetworkTableInstance.getDefault()
+                    .getStructTopic("Shoot Pose", Pose2d.struct)
                     .publish();
 
     Alliance alliance;
@@ -245,6 +252,31 @@ public final class SubsystemManager {
         return aimPose;
     }
 
+    private final Translation2d shootPose() {
+        Pose2d pose = poseTracker.getPose();
+
+        var alliance = DriverStation.getAlliance();
+
+        if (alliance.get() == DriverStation.Alliance.Blue) {
+            if (pose.getX() <= 3.594) {
+                double distance = (new Translation2d(4.625, 4.033)).getDistance(pose.getTranslation());
+                Translation2d direction = new Translation2d(pose.getX() - 4.625, pose.getY() - 4.033).div(distance);
+                
+                shootPose = direction.times(ShooterConfig.SHOOTER_OPTIMUM_DISTANCE_METERS).plus(new Translation2d(4.625, 4.033));
+                return shootPose;
+            }
+        } else {
+            if (pose.getX() >= 16.54 - 3.594) {
+                double distance = (new Translation2d(16.54 - 4.625, 4.033)).getDistance(pose.getTranslation());
+                Translation2d direction = new Translation2d(pose.getX() - (16.54 - 4.625), pose.getY() - 4.033).div(distance);
+                
+                shootPose = direction.times(ShooterConfig.SHOOTER_OPTIMUM_DISTANCE_METERS).plus(new Translation2d(16.54 - 4.625, 4.033));
+                return shootPose;
+            }
+        }
+
+        return null;
+    }
     /**
      * Inicializa el estado del robot a la configuración operacional por defecto.
      * 
@@ -360,24 +392,25 @@ public final class SubsystemManager {
                 break;
             case SHOOT:
                 CommandScheduler.getInstance().schedule(
-                    new ParallelCommandGroup(
+                    new SequentialCommandGroup(
                         new InstantCommand(() -> {
-                            Drive.assistX = false;
-                            Drive.assistY = false;
+                            Translation2d shootPose = shootPose();
+                            boolean isOnZone = shootPose != null;
+
+                            Drive.assistX = isOnZone;
+                            Drive.assistY = isOnZone;
+                            Drive.targetPose = new Pose2d(shootPose, new Rotation2d(0));
                             Drive.assistTheta = true;
                             Drive.aimEnabled = true;
-                            Drive.targetPose = aimPose;
                             Drive.onAimTolerance = false;
                             //tejuino.all_leds_red(1);
                             //tejuino.all_leds_red(2);
                         }),
-                        shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance).andThen(
-                            shooter.releaseCommand(calculateAimPose().getTranslation().getDistance(
-                                driveSim.getSimulatedDriveTrainPose().getTranslation()
-                            )),
-                            chaneler.feedCommand(),
-                            indexer.feedCommand()
-                        )
+
+                        shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance),
+                        shooter.setVelocityCommand(71.67),
+                        chaneler.feedCommand(),
+                        indexer.feedCommand()
                     )
                 );
                 break;
@@ -403,5 +436,7 @@ public final class SubsystemManager {
         SmartDashboard.putString("Robot State", robotState.toString());
 
         aimPosePublisher.set(aimPose);
+        shootPosePublisher.set(new Pose2d(shootPose, new Rotation2d(0)));
+        
     }
 }
