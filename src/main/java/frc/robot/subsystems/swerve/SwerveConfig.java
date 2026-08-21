@@ -1,5 +1,8 @@
 package frc.robot.subsystems.swerve;
 
+import com.ctre.phoenix6.Orchestra;
+import com.ctre.phoenix6.StatusCode;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -256,8 +259,10 @@ public final class SwerveConfig {
         new TrapezoidProfile.Constraints(
             MAX_ANG_SPD,
             MAX_ANG_ACCEL);
-        public static final double MASS_KG = 56.000;
-        public static final double BUMPER_LENGTH_X = 0.9144;
-        public static final double BUMPER_WIDTH_Y = 0.8255;
-
+    public static final double MASS_KG = 61.230;
+    public static final double BUMPER_LENGTH_X = 0.9144;
+    public static final double BUMPER_WIDTH_Y = 0.8255;
+    
+    public static final Orchestra orchestra = new Orchestra();
+    public static final StatusCode state = orchestra.loadMusic("output.chrp");
 }

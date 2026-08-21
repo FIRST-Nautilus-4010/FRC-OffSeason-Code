@@ -94,7 +94,7 @@ public class Swerve extends SubsystemBase {
         frontRight = new SwerveModule(moduleIOs[1]);
         backLeft   = new SwerveModule(moduleIOs[2]);
         backRight  = new SwerveModule(moduleIOs[3]);
-
+        SwerveConfig.orchestra.play();
 
         zeroHeading();
     }

@@ -9,6 +9,10 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.units.BaseUnits;
+import edu.wpi.first.units.TimeUnit;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.utils.PhoenixUtil;
@@ -108,6 +112,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void simulationInit() {
       SimulatedArena.getInstance().placeGamePiecesOnField();
+      //SimulatedArena.overrideSimulationTimings(Units.Seconds.of(0.005), 1);
   }
 
   @Override

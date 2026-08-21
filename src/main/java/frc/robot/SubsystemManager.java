@@ -117,6 +117,7 @@ public final class SubsystemManager {
         this.isSimulation = isSimulation;
 
         if (isSimulation){
+            Drive.isSim = true;
             
             driveSim = new SwerveDriveSimulation(
                 new DriveTrainSimulationConfig(
@@ -135,7 +136,7 @@ public final class SubsystemManager {
                             Voltage.ofBaseUnits(SwerveConfig.VEL_KS, Volts),
                             Voltage.ofBaseUnits(SwerveConfig.POS_KS, Volts),
                             Meters.of(SwerveConfig.WHEEL_DIAMETER / 2.0),
-                            KilogramSquareMeters.of(0.1),
+                            KilogramSquareMeters.of(0.05),
                             SwerveConfig.FRICTION_COF
                         )
                     )   
@@ -161,6 +162,8 @@ public final class SubsystemManager {
             SimulatedArena.getInstance().addDriveTrainSimulation(driveSim);
             
         } else {
+            Drive.isSim = false;
+            
             shooterIO = new ShooterIOHardware();
             intakeIO = new IntakeIOHardware();  
             gyroIO = new GyroIOHardware();
@@ -399,7 +402,11 @@ public final class SubsystemManager {
 
                             Drive.assistX = isOnZone;
                             Drive.assistY = isOnZone;
-                            Drive.targetPose = new Pose2d(shootPose, new Rotation2d(0));
+                            if (isOnZone) {
+                                Drive.targetPose = new Pose2d(shootPose, new Rotation2d(0));
+                            } else {
+                                Drive.targetPose = new Pose2d(calculateAimPose().getTranslation(), new Rotation2d(0));
+                            }
                             Drive.assistTheta = true;
                             Drive.aimEnabled = true;
                             Drive.onAimTolerance = false;
