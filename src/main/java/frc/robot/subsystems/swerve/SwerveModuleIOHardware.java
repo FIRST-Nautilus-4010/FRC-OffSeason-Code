@@ -2,7 +2,6 @@ package frc.robot.subsystems.swerve;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.CANBus;
-import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -97,6 +96,8 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         this.driveConfig   = new TalonFXConfiguration();
         this.turningConfig = new TalonFXConfiguration();
 
+        // withUpdateFreqHz(0) — Phoenix no publica la señal de control de forma
+        // periódica, sólo cuando se envía el request. Reduce tráfico CAN.
         this.velocityRequest = new VelocityVoltage(0.0).withSlot(0).withUpdateFreqHz(50);
         this.positionRequest = new PositionVoltage(0.0).withSlot(0).withUpdateFreqHz(50);
 
@@ -163,6 +164,7 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         );
 
         resetEncoders(absolutePosition.getValueAsDouble() * 2 * Math.PI + absoluteEncoderOffsetRad);
+        
         if (driveTalonFxId <= 3) {
             SwerveConfig.orchestra.addInstrument(driveMotor, 0);
             SwerveConfig.orchestra.addInstrument(turningMotor, 1);
@@ -181,6 +183,8 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         driveConfig.CurrentLimits.SupplyCurrentLimit        = 70;
         driveConfig.CurrentLimits.StatorCurrentLimitEnable  = true;
         driveConfig.CurrentLimits.StatorCurrentLimit        = 120;
+        driveConfig.TorqueCurrent.PeakForwardTorqueCurrent  = 120;
+        driveConfig.TorqueCurrent.PeakReverseTorqueCurrent  = -120;
         driveConfig.MotorOutput.NeutralMode                 = NeutralModeValue.Brake;
         driveConfig.MotorOutput.Inverted                    = InvertedValue.Clockwise_Positive;
         driveConfig.Feedback.SensorToMechanismRatio         = 1.0 / SwerveConfig.ROT_2_M;
@@ -190,6 +194,8 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         turningConfig.CurrentLimits.SupplyCurrentLimit       = 20;
         turningConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         turningConfig.CurrentLimits.StatorCurrentLimit       = 40;
+        turningConfig.TorqueCurrent.PeakForwardTorqueCurrent = 60;
+        turningConfig.TorqueCurrent.PeakReverseTorqueCurrent = -60;
         turningConfig.MotorOutput.NeutralMode                = NeutralModeValue.Brake;
         turningConfig.MotorOutput.Inverted                   = InvertedValue.CounterClockwise_Positive;
         turningConfig.Feedback.SensorToMechanismRatio        = 1.0 / SwerveConfig.ROT_2_RAD;

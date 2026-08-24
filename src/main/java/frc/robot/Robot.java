@@ -15,6 +15,7 @@ import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.swerve.SwerveConfig;
 import frc.robot.utils.PhoenixUtil;
 
 public class Robot extends LoggedRobot {
@@ -31,7 +32,7 @@ public class Robot extends LoggedRobot {
     Logger.recordMetadata("GitBranch", BuildConfig.GIT_BRANCH);
 
     if (isReal()) {
-        Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+        Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs")); // Log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
     } else if (replay) {
         setUseTiming(false); // Run as fast as possible
@@ -62,7 +63,11 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    if (!SwerveConfig.orchestra.isPlaying()) {
+        SwerveConfig.orchestra.play();
+    }
+  }
 
   @Override
   public void disabledExit() {}

@@ -24,22 +24,22 @@ public final class SwerveConfig {
     // --------------------------------------------------------------------
 
     /** CAN ID del motor de tracción del módulo delantero izquierdo. */
-    public static final int FL_PWR = 1;
+    public static final int FL_PWR = 4;
     /** CAN ID del motor de tracción del módulo delantero derecho. */
     public static final int FR_PWR = 3;
     /** CAN ID del motor de tracción del módulo trasero izquierdo. */
-    public static final int BL_PWR = 5;
+    public static final int BL_PWR = 2;
     /** CAN ID del motor de tracción del módulo trasero derecho. */
-    public static final int BR_PWR = 7;
+    public static final int BR_PWR = 1;
 
     /** CAN ID del motor de giro del módulo delantero izquierdo. */
-    public static final int FL_STR = 2;
+    public static final int FL_STR = 8;
     /** CAN ID del motor de giro del módulo delantero derecho. */
-    public static final int FR_STR = 4;
+    public static final int FR_STR = 7;
     /** CAN ID del motor de giro del módulo trasero izquierdo. */
     public static final int BL_STR = 6;
     /** CAN ID del motor de giro del módulo trasero derecho. */
-    public static final int BR_STR = 8;
+    public static final int BR_STR = 5;
 
     /** CAN ID del encoder absoluto del módulo delantero izquierdo. */
     public static final int FL_ENC = 12;
@@ -233,13 +233,13 @@ public final class SwerveConfig {
     public static final String LIMELIGHT_1 = "limelight-1";
     public static final String LIMELIGHT_2 = "limelight-2";
 
-    public static final double P_X = 80;
+    public static final double P_X = 25;
     public static final double I_X = 0.0;
-    public static final double D_X = 0.0;
+    public static final double D_X = 0.25;
 
-    public static final double P_Y = 80.0;
+    public static final double P_Y = 25;
     public static final double I_Y = 0.0;
-    public static final double D_Y = 0.0;
+    public static final double D_Y = 0.25;
 
     public static final double P_Z = 10;
     public static final double I_Z = 0.0;
