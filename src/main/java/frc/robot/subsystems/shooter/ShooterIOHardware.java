@@ -105,7 +105,7 @@ public class ShooterIOHardware implements ShooterIO {
         spinConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         spinConfig.CurrentLimits.StatorCurrentLimit       = 120;
         spinConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        spinConfig.MotorOutput.Inverted    = InvertedValue.CounterClockwise_Positive;
+        spinConfig.MotorOutput.Inverted    = InvertedValue.Clockwise_Positive;
         spinConfig.Feedback.SensorToMechanismRatio = ShooterConfig.SPIN_REDUCTION;
     }
 

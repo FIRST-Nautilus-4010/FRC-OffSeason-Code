@@ -395,27 +395,27 @@ public final class SubsystemManager {
                 break;
             case SHOOT:
                 CommandScheduler.getInstance().schedule(
-                    new SequentialCommandGroup(
+                    new ParallelCommandGroup(
                         new InstantCommand(() -> {
                             Translation2d shootPose = shootPose();
                             boolean isOnZone = shootPose != null;
 
-                            Drive.assistX = isOnZone;
-                            Drive.assistY = isOnZone;
+                            Drive.assistX = false;
+                            Drive.assistY = false;
                             if (isOnZone) {
                                 Drive.targetPose = new Pose2d(shootPose, new Rotation2d(0));
                             } else {
                                 Drive.targetPose = new Pose2d(calculateAimPose().getTranslation(), new Rotation2d(0));
                             }
-                            Drive.assistTheta = true;
-                            Drive.aimEnabled = true;
+                            Drive.assistTheta = false;
+                            Drive.aimEnabled = false;
                             Drive.onAimTolerance = false;
                             //tejuino.all_leds_red(1);
                             //tejuino.all_leds_red(2);
                         }),
 
-                        shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance),
-                        shooter.setVelocityCommand(71.67),
+                        //shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance),
+                        shooter.setVelocityCommand(76.23),
                         chaneler.feedCommand(),
                         indexer.feedCommand()
                     )

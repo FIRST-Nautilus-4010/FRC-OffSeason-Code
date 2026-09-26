@@ -101,7 +101,7 @@ public class IndexerIOHardware implements IndexerIO {
         indexerConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         indexerConfig.CurrentLimits.StatorCurrentLimit       = 70;
         indexerConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
-        indexerConfig.MotorOutput.Inverted    = InvertedValue.CounterClockwise_Positive;
+        indexerConfig.MotorOutput.Inverted    = InvertedValue.Clockwise_Positive;
         indexerConfig.Feedback.SensorToMechanismRatio = IndexerConfig.INDEXER_REDUCTION;
     }
 

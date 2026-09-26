@@ -29,31 +29,20 @@ public class ChanelerConfig {
     // GANANCIAS (Slot 0 - Velocidad)
     // --------------------------------------------------------------------
 
-    /** Voltaje estático para vencer la fricción (V) */
-    public static final double VEL_KS = 0.0;
-
-    /** Voltaje por unidad de velocidad (V / (rot/s)) */
-    public static final double VEL_KV = 0.0;
-
-    /** Voltaje por unidad de aceleración (V / (rot/s²)) */
-    public static final double VEL_KA = 0.0;
-
-    /** Ganancia proporcional */
-    public static final double VEL_KP = 0.0;
-
-    /** Ganancia integral */
-    public static final double VEL_KI = 0.0;
-
-    /** Ganancia derivativa */
-    public static final double VEL_KD = 0.0;
+    public static final double VEL_KS = 0.10442;
+    public static final double VEL_KV = 0.10882;
+    public static final double VEL_KA = 0.001647;
+    public static final double VEL_KP = 0.4;
+    public static final double VEL_KI = 0.00;
+    public static final double VEL_KD = 0.001;
 
     // --------------------------------------------------------------------
     // MOTION MAGIC
     // --------------------------------------------------------------------
 
     /** Aceleración máxima en MotionMagic (rot/s²) */
-    public static final double MAGIC_MOTION_VELOCITY_ACCELERATION = 1000; // TODO: tunear
+    public static final double MAGIC_MOTION_VELOCITY_ACCELERATION = 950; // TODO: tunear
 
     /** Jerk máximo en MotionMagic (rot/s³) */
-    public static final double MAGIC_MOTION_VELOCITY_JERK = 10000; // TODO: tunear
+    public static final double MAGIC_MOTION_VELOCITY_JERK = 9500; // TODO: tunear
 }

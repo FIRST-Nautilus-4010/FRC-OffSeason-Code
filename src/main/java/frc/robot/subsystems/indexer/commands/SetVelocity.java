@@ -35,9 +35,4 @@ public class SetVelocity extends Command {
     public void execute() {
         io.setVelocity(velocityRps);
     }
-
-    @Override
-    public void end(boolean interrupted) {
-        io.stop();
-    }
 }
