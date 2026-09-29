@@ -10,7 +10,7 @@ package frc.robot;
  * Cada estado activa/desactiva subsistemas específicos y configura
  * comportamientos predeterminados para operación fluida.
  */
-public enum RobotState {
+public enum RobotState  {
     
     /**
      * Estado de conducción normal.
