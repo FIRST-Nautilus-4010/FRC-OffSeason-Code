@@ -13,7 +13,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import frc.robot.subsystems.swerve.SwerveConfig;
 import frc.robot.utils.PathPlannerAutoBuilder;
 
-//Hola que onda, soy Martin
+//Hola soy Martin
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
