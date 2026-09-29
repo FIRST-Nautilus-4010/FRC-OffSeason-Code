@@ -164,6 +164,14 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         );
 
         resetEncoders(absolutePosition.getValueAsDouble() * 2 * Math.PI + absoluteEncoderOffsetRad);
+        
+        if (driveTalonFxId <= 3) {
+            SwerveConfig.orchestra.addInstrument(driveMotor, 0);
+            SwerveConfig.orchestra.addInstrument(turningMotor, 1);
+        } else {
+            SwerveConfig.orchestra.addInstrument(driveMotor, 0);
+            SwerveConfig.orchestra.addInstrument(turningMotor, 1);
+        }
     }
 
     // -----------------------------------------------------------------------
@@ -172,7 +180,7 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
 
     private void configureMotors() {
         driveConfig.CurrentLimits.SupplyCurrentLimitEnable  = true;
-        driveConfig.CurrentLimits.SupplyCurrentLimit        = 60;
+        driveConfig.CurrentLimits.SupplyCurrentLimit        = 70;
         driveConfig.CurrentLimits.StatorCurrentLimitEnable  = true;
         driveConfig.CurrentLimits.StatorCurrentLimit        = 120;
         driveConfig.TorqueCurrent.PeakForwardTorqueCurrent  = 120;
@@ -180,6 +188,7 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         driveConfig.MotorOutput.NeutralMode                 = NeutralModeValue.Brake;
         driveConfig.MotorOutput.Inverted                    = InvertedValue.Clockwise_Positive;
         driveConfig.Feedback.SensorToMechanismRatio         = 1.0 / SwerveConfig.ROT_2_M;
+        driveConfig.Audio.AllowMusicDurDisable = true;
 
         turningConfig.CurrentLimits.SupplyCurrentLimitEnable = true;
         turningConfig.CurrentLimits.SupplyCurrentLimit       = 20;
@@ -190,6 +199,7 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
         turningConfig.MotorOutput.NeutralMode                = NeutralModeValue.Brake;
         turningConfig.MotorOutput.Inverted                   = InvertedValue.CounterClockwise_Positive;
         turningConfig.Feedback.SensorToMechanismRatio        = 1.0 / SwerveConfig.ROT_2_RAD;
+        turningConfig.Audio.AllowMusicDurDisable = true;
     }
 
     private void configureDriveGains() {
