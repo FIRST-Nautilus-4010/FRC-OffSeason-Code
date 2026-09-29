@@ -1,8 +1,11 @@
 package frc.robot.subsystems.shooter.commands;
 
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIO;
+import frc.robot.subsystems.shooter.ShooterIOInputsAutoLogged;
 
 /**
  * Comando para establecer la velocidad del shooter.
@@ -18,6 +21,8 @@ public class SetVelocity extends Command {
     /** Velocidad objetivo (RPS). */
     private final double velocityRps;
 
+    private final ShooterIO.ShooterIOInputs inputs;
+
     /**
      * Crea un comando para girar el shooter a una velocidad dada.
      *
@@ -25,9 +30,11 @@ public class SetVelocity extends Command {
      * @param io          interfaz de hardware del shooter
      * @param shooter     subsistema Shooter (para requirements)
      */
-    public SetVelocity(double velocityRps, ShooterIO io, Shooter shooter) {
+    public SetVelocity(double velocityRps, ShooterIO io, Shooter shooter, ShooterIO.ShooterIOInputs inputs) {
         this.velocityRps = velocityRps;
         this.io = io;
+        this.inputs = inputs;
+
         addRequirements(shooter);
     }
 
@@ -37,7 +44,7 @@ public class SetVelocity extends Command {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        io.stop();
+    public boolean isFinished() {
+        return Math.abs(inputs.shooterData.velocityLeft() - velocityRps) < 5;
     }
 }
