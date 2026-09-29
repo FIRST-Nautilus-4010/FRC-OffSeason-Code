@@ -1,5 +1,8 @@
 package frc.robot.subsystems.swerve;
 
+import com.ctre.phoenix6.Orchestra;
+import com.ctre.phoenix6.StatusCode;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -171,13 +174,13 @@ public final class SwerveConfig {
     // --------------------------------------------------------------------
 
     /** Aceleración máxima hacia adelante (m/s²) usada en el limitador. */
-    public static final double MAX_FORDWARD_ACCEL = 9.6;
+    public static final double MAX_FORDWARD_ACCEL = 11.2;
 
     /** Aceleración máxima frontal (m/s²) en el modelo de estabilidad. */
-    public static final double MAX_FRONT_ACCEL = 9.6;
+    public static final double MAX_FRONT_ACCEL = 11.2;
 
     /** Aceleración máxima lateral (m/s²) en el modelo de estabilidad. */
-    public static final double MAX_SIDE_ACCEL = 9.6;
+    public static final double MAX_SIDE_ACCEL = 11.2;
 
     /**
      * Coeficiente de fricción efectivo rueda-suelo.
@@ -230,13 +233,13 @@ public final class SwerveConfig {
     public static final String LIMELIGHT_1 = "limelight-1";
     public static final String LIMELIGHT_2 = "limelight-2";
 
-    public static final double P_X = 80;
+    public static final double P_X = 25;
     public static final double I_X = 0.0;
-    public static final double D_X = 0.0;
+    public static final double D_X = 0.25;
 
-    public static final double P_Y = 80.0;
+    public static final double P_Y = 25;
     public static final double I_Y = 0.0;
-    public static final double D_Y = 0.0;
+    public static final double D_Y = 0.25;
 
     public static final double P_Z = 10;
     public static final double I_Z = 0.0;
@@ -256,8 +259,10 @@ public final class SwerveConfig {
         new TrapezoidProfile.Constraints(
             MAX_ANG_SPD,
             MAX_ANG_ACCEL);
-        public static final double MASS_KG = 56.000;
-        public static final double BUMPER_LENGTH_X = 0.9144;
-        public static final double BUMPER_WIDTH_Y = 0.8255;
-
+    public static final double MASS_KG = 61.230;
+    public static final double BUMPER_LENGTH_X = 0.9144;
+    public static final double BUMPER_WIDTH_Y = 0.8255;
+    
+    public static final Orchestra orchestra = new Orchestra();
+    public static final StatusCode state = orchestra.loadMusic("output.chrp");
 }

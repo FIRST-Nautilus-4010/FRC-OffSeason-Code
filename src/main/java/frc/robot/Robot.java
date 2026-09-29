@@ -9,22 +9,30 @@ import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.units.BaseUnits;
+import edu.wpi.first.units.TimeUnit;
+import edu.wpi.first.units.Units;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.swerve.SwerveConfig;
+import frc.robot.utils.PhoenixUtil;
 
 public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
-
-  private final String GIT_SHA = "atun";
   private static final boolean replay = false; // Set to true to enable replay mode (runs from a log file)
 
   public Robot() {
-    Logger.recordMetadata("GitSHA", GIT_SHA);
+    Logger.recordMetadata("ProjectName", BuildConfig.MAVEN_NAME);
+    Logger.recordMetadata("BuildDate", BuildConfig.BUILD_DATE);
+    Logger.recordMetadata("GitSHA", BuildConfig.GIT_SHA);
+    Logger.recordMetadata("GitDate", BuildConfig.GIT_DATE);
+    Logger.recordMetadata("GitBranch", BuildConfig.GIT_BRANCH);
 
     if (isReal()) {
-        Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
+        Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/logs")); // Log to a USB stick ("/U/logs")
         Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
     } else if (replay) {
         setUseTiming(false); // Run as fast as possible
@@ -44,6 +52,7 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void robotPeriodic() {
+    PhoenixUtil.refreshAll();
     CommandScheduler.getInstance().run();
     m_robotContainer.periodic();
   }
@@ -54,14 +63,17 @@ public class Robot extends LoggedRobot {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    if (!SwerveConfig.orchestra.isPlaying()) {
+        SwerveConfig.orchestra.play();
+    }
+  }
 
   @Override
   public void disabledExit() {}
 
   @Override
   public void autonomousInit() {
-    m_robotContainer.subsystemManager.scheduleState(RobotState.INTAKE);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -104,6 +116,7 @@ public class Robot extends LoggedRobot {
   @Override
   public void simulationInit() {
       SimulatedArena.getInstance().placeGamePiecesOnField();
+      //SimulatedArena.overrideSimulationTimings(Units.Seconds.of(0.005), 1);
   }
 
   @Override

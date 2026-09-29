@@ -12,7 +12,7 @@ import frc.robot.RobotState;
 import frc.robot.SubsystemManager;
 import frc.robot.subsystems.swerve.PoseTracker;
 
-public class PathPlannerAutoBuilder {
+public class PathPlannerAutoBuilder  {
     static RobotConfig config;
     static PoseTracker poseTracker;
 
