@@ -9,8 +9,8 @@ public final class ShooterConfig {
     // ====================================================================
     // IDs CAN
     // ====================================================================
-    public static final int SPIN_L_TALONFX_ID = 6;
-    public static final int SPIN_R_TALONFX_ID = 7;
+    public static final int SPIN_L_TALONFX_ID = 1;
+    public static final int SPIN_R_TALONFX_ID = 2;
 
     // ====================================================================
     // REDUCCIÓN
@@ -44,7 +44,7 @@ public final class ShooterConfig {
     // ====================================================================
 
     /** Momento de inercia del flywheel (kg·m²). Ajusta según tu CAD. */
-    public static final double MOMENT_OF_INERTIA_KG_M2 = 0.003;
+    public static final double MOMENT_OF_INERTIA_KG_M2 = 0.001;
 
     /** Desviaciones estándar para ruido en la simulación [posición, velocidad]. */
     public static final double[] STD_DEVS_SHOOTER = new double[]{0.0, 0.001};
@@ -64,6 +64,8 @@ public final class ShooterConfig {
 
     /** Ángulo de lanzamiento del shooter (grados). */
     public static final double SHOOTER_ANGLE_DEGREES = 70;
+
+    public static final double SHOOTER_OPTIMUM_DISTANCE_METERS = 3.0;
 
     public static final InterpolatingDoubleTreeMap VEL_TABLE = new InterpolatingDoubleTreeMap();
 

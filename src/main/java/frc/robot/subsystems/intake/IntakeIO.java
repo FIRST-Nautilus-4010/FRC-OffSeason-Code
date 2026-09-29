@@ -45,10 +45,6 @@ public interface IntakeIO {
     default void setPosition(double positionRad) {}
 
     default void setVelocity(double velocityRps) {}
-    
-    default public IntakeIOInputs getInputs() {
-        return new IntakeIOInputs();
-    }
 
     default void stop() {}
 }

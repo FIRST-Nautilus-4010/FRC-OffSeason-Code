@@ -30,4 +30,6 @@ public interface ShooterIO {
     default void runOpenLoop(double output) {}
 
     default void stop() {}
+
+    default ShooterIOInputs getInputs() {return new ShooterIOInputs();}
 }

@@ -81,7 +81,7 @@ public class GyroIOHardware implements GyroIO {
 
         // Registra todas las señales con AdvantageKit.
         PhoenixUtil.registerSignals(
-                false,
+                true,
                 yaw, pitch, roll,
                 yawRate, pitchRate, rollRate,
                 accelX, accelY, accelZ
