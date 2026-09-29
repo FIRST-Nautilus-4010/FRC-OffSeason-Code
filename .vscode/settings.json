@@ -2,7 +2,7 @@
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.server.launchMode": "Standard",
   "files.exclude": {
-    "**/.git": true,
+    "**/.git": true  ,
     "**/.svn": true,
     "**/.hg": true,
     "**/CVS": true,
@@ -10,7 +10,7 @@
     "bin/": true,
     "**/.classpath": true,
     "**/.project": true,
-    "**/.settings": true,
+    "**/.settings": true
     "**/.factorypath": true,
     "**/*~": true
   },
