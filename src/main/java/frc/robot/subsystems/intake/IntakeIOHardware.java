@@ -9,6 +9,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -215,9 +216,7 @@ public class IntakeIOHardware implements IntakeIO {
         spinConfig.CurrentLimits.SupplyCurrentLimit = 20;
         spinConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         spinConfig.CurrentLimits.StatorCurrentLimit = 40;
-        spinConfig.TorqueCurrent.PeakForwardTorqueCurrent = 120;
-        spinConfig.TorqueCurrent.PeakReverseTorqueCurrent = -120;
-        spinConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+        spinConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
         spinConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         spinConfig.Feedback.SensorToMechanismRatio = IntakeConfig.SPIN_REDUCTION;
 
@@ -225,8 +224,6 @@ public class IntakeIOHardware implements IntakeIO {
         pivotConfig.CurrentLimits.SupplyCurrentLimit = 20;
         pivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         pivotConfig.CurrentLimits.StatorCurrentLimit = 40;
-        pivotConfig.TorqueCurrent.PeakForwardTorqueCurrent = 120;
-        pivotConfig.TorqueCurrent.PeakReverseTorqueCurrent = -120;
         pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
         pivotConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
         pivotConfig.Feedback.SensorToMechanismRatio = IntakeConfig.PIVOT_REDUCTION;
@@ -263,6 +260,7 @@ public class IntakeIOHardware implements IntakeIO {
         slot0.kP = IntakeConfig.POS_KP;
         slot0.kI = IntakeConfig.POS_KI;
         slot0.kD = IntakeConfig.POS_KD;
+        slot0.GravityType = GravityTypeValue.Elevator_Static;
     }
 
     /**
@@ -276,8 +274,10 @@ public class IntakeIOHardware implements IntakeIO {
         var pivotMM = pivotConfig.MotionMagic;
         pivotMM.MotionMagicCruiseVelocity = IntakeConfig.MAGIC_MOTION_VELOCITY_STR;
         pivotMM.MotionMagicAcceleration = IntakeConfig.MAGIC_MOTION_ACCELERATION_STR;
+        pivotMM.MotionMagicJerk = IntakeConfig.MAGIC_MOTION_JERK_STR;
         pivotMM.MotionMagicExpo_kV = IntakeConfig.MAGIC_MOTION_EXPO_KV_STR;
         pivotMM.MotionMagicExpo_kA = IntakeConfig.MAGIC_MOTION_EXPO_KA_STR;
+
         // Motion Magic en el motor de giro.
         var spinMM = spinConfig.MotionMagic;
         spinMM.MotionMagicAcceleration = IntakeConfig.MAGIC_MOTION_VELOCITY_ACCELERATION_STR;

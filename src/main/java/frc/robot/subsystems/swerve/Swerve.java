@@ -12,6 +12,7 @@ import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.PhoenixUtil;
 
 /**
  * Subsistema de conducción swerve del robot.
@@ -93,7 +94,6 @@ public class Swerve extends SubsystemBase {
         frontRight = new SwerveModule(moduleIOs[1]);
         backLeft   = new SwerveModule(moduleIOs[2]);
         backRight  = new SwerveModule(moduleIOs[3]);
-
 
         zeroHeading();
     }

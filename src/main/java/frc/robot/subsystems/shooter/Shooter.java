@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
      * @return Comando que gira el shooter a {@link ShooterConstants#RELEASE_VELOCITY_RPS}
      */
     public Command releaseCommand(double distance) {
-        return new SetVelocity(ShooterConfig.VEL_TABLE.get(distance), io, this);
+        return new SetVelocity(ShooterConfig.VEL_TABLE.get(distance), io, this, inputs);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Shooter extends SubsystemBase {
      * @return Comando que mantiene esa velocidad hasta ser cancelado
      */
     public Command setVelocityCommand(double velocityRps) {
-        return new SetVelocity(velocityRps, io, this);
+        return new SetVelocity(velocityRps, io, this, inputs);
     }
 
     /**

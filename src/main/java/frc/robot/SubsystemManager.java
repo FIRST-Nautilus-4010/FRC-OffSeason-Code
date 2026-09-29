@@ -11,6 +11,7 @@ import org.ironmaple.simulation.drivesims.configs.SwerveModuleSimulationConfig;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
@@ -21,17 +22,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Kilograms;
 import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.Volts;
 
+import frc.robot.subsystems.chaneler.Chaneler;
+import frc.robot.subsystems.chaneler.ChanelerIO;
+import frc.robot.subsystems.chaneler.ChanelerIOHardware;
+import frc.robot.subsystems.indexer.Indexer;
+import frc.robot.subsystems.indexer.IndexerIO;
+import frc.robot.subsystems.indexer.IndexerIOHardware;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIO;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import frc.robot.subsystems.intake.IntakeIOSim;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.ShooterConfig;
 import frc.robot.subsystems.shooter.ShooterIO;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
 import frc.robot.subsystems.shooter.ShooterIOSim;
@@ -44,13 +53,11 @@ import frc.robot.subsystems.swerve.SwerveModuleIO;
 import frc.robot.subsystems.swerve.SwerveModuleIOHardware;
 import frc.robot.subsystems.swerve.SwerveModuleIOSim;
 import frc.robot.subsystems.swerve.commands.Drive;
-import frc.robot.utils.TejuinoBoard;
-
 /**
  * Gestor centralizado de subsistemas y estados del robot.
  *
  * Coordina el funcionamiento de todos los subsistemas (swerve, intake, shooter,
- * channeler, climber) y administra las transiciones entre estados operacionales
+ * Chaneler, climber) y administra las transiciones entre estados operacionales
  * (TRAVEL, INTAKE, SHOOT, CLIMB, TEST).
  * 
  * Mantiene el estado actual del robot y gestiona las asistencias de conducción
@@ -63,6 +70,8 @@ public final class SubsystemManager {
 
     private final Intake intake;
     private final Shooter shooter;
+    private final Chaneler chaneler;
+    private final Indexer indexer;
 
     /** Controlador de la placa Tejuino para LEDs y feedback visual. */
     //private final TejuinoBoard tejuino;
@@ -75,11 +84,17 @@ public final class SubsystemManager {
 
     /** Pose calculada para aiming automático. */
     Pose2d aimPose = new Pose2d(0, 0, new Rotation2d(0));
+    Translation2d shootPose = new Translation2d(0, 0);
     
     /** Publisher de NetworkTables para la pose de aiming. */
     StructPublisher<Pose2d> aimPosePublisher = 
         NetworkTableInstance.getDefault()
                     .getStructTopic("Aim Pose", Pose2d.struct)
+                    .publish();
+
+    StructPublisher<Pose2d> shootPosePublisher = 
+        NetworkTableInstance.getDefault()
+                    .getStructTopic("Shoot Pose", Pose2d.struct)
                     .publish();
 
     Alliance alliance;
@@ -96,10 +111,13 @@ public final class SubsystemManager {
         final GyroIO gyroIO;
         final SwerveModuleIO[] moduleIOs;
         final ShooterIO shooterIO;
+        final ChanelerIO chanelerIO;
+        final IndexerIO indexerIO;
 
         this.isSimulation = isSimulation;
 
         if (isSimulation){
+            Drive.isSim = true;
             
             driveSim = new SwerveDriveSimulation(
                 new DriveTrainSimulationConfig(
@@ -118,7 +136,7 @@ public final class SubsystemManager {
                             Voltage.ofBaseUnits(SwerveConfig.VEL_KS, Volts),
                             Voltage.ofBaseUnits(SwerveConfig.POS_KS, Volts),
                             Meters.of(SwerveConfig.WHEEL_DIAMETER / 2.0),
-                            KilogramSquareMeters.of(0.062),
+                            KilogramSquareMeters.of(0.05),
                             SwerveConfig.FRICTION_COF
                         )
                     )   
@@ -138,13 +156,14 @@ public final class SubsystemManager {
             final ShooterIOSim shooterSim = new ShooterIOSim(driveSim);
 
             shooterIO = shooterSim;
-
             intakeIO = new IntakeIOSim(driveSim, shooterSim);
             gyroIO = new GyroIOSim(driveSim);
 
             SimulatedArena.getInstance().addDriveTrainSimulation(driveSim);
             
         } else {
+            Drive.isSim = false;
+            
             shooterIO = new ShooterIOHardware();
             intakeIO = new IntakeIOHardware();  
             gyroIO = new GyroIOHardware();
@@ -157,8 +176,15 @@ public final class SubsystemManager {
             };
         }
 
+        chanelerIO = new ChanelerIOHardware();
+        indexerIO = new IndexerIOHardware();
+
+
         this.shooter = new Shooter(shooterIO);
         this.intake = new Intake(intakeIO);
+        this.chaneler = new Chaneler(chanelerIO);
+        this.indexer = new Indexer(indexerIO);
+
         this.alliance = alliance;
 
         this.poseTracker = new PoseTracker(gyroIO, moduleIOs, alliance, new Pose2d(3.570, 7.427, new Rotation2d(0)));
@@ -229,6 +255,31 @@ public final class SubsystemManager {
         return aimPose;
     }
 
+    private final Translation2d shootPose() {
+        Pose2d pose = poseTracker.getPose();
+
+        var alliance = DriverStation.getAlliance();
+
+        if (alliance.get() == DriverStation.Alliance.Blue) {
+            if (pose.getX() <= 3.594) {
+                double distance = (new Translation2d(4.625, 4.033)).getDistance(pose.getTranslation());
+                Translation2d direction = new Translation2d(pose.getX() - 4.625, pose.getY() - 4.033).div(distance);
+                
+                shootPose = direction.times(ShooterConfig.SHOOTER_OPTIMUM_DISTANCE_METERS).plus(new Translation2d(4.625, 4.033));
+                return shootPose;
+            }
+        } else {
+            if (pose.getX() >= 16.54 - 3.594) {
+                double distance = (new Translation2d(16.54 - 4.625, 4.033)).getDistance(pose.getTranslation());
+                Translation2d direction = new Translation2d(pose.getX() - (16.54 - 4.625), pose.getY() - 4.033).div(distance);
+                
+                shootPose = direction.times(ShooterConfig.SHOOTER_OPTIMUM_DISTANCE_METERS).plus(new Translation2d(16.54 - 4.625, 4.033));
+                return shootPose;
+            }
+        }
+
+        return null;
+    }
     /**
      * Inicializa el estado del robot a la configuración operacional por defecto.
      * 
@@ -316,7 +367,9 @@ public final class SubsystemManager {
                             //tejuino.all_leds_blue(2);
                         }),
                         intake.stowCommand(),
-                        shooter.stopCommand()
+                        shooter.stopCommand(),
+                        chaneler.stopCommand(),
+                        indexer.stopCommand()
 
                     )
                 );
@@ -334,7 +387,9 @@ public final class SubsystemManager {
                             //tejuino.all_leds_green(2);
                         }),
                         intake.grabCommand(),
-                        shooter.stopCommand()
+                        shooter.stopCommand(),
+                        chaneler.stopCommand(),
+                        indexer.stopCommand()
                     )
                 );
                 break;
@@ -342,20 +397,27 @@ public final class SubsystemManager {
                 CommandScheduler.getInstance().schedule(
                     new ParallelCommandGroup(
                         new InstantCommand(() -> {
+                            Translation2d shootPose = shootPose();
+                            boolean isOnZone = shootPose != null;
+
                             Drive.assistX = false;
                             Drive.assistY = false;
-                            Drive.assistTheta = true;
-                            Drive.aimEnabled = true;
-                            Drive.targetPose = aimPose;
+                            if (isOnZone) {
+                                Drive.targetPose = new Pose2d(shootPose, new Rotation2d(0));
+                            } else {
+                                Drive.targetPose = new Pose2d(calculateAimPose().getTranslation(), new Rotation2d(0));
+                            }
+                            Drive.assistTheta = false;
+                            Drive.aimEnabled = false;
                             Drive.onAimTolerance = false;
                             //tejuino.all_leds_red(1);
                             //tejuino.all_leds_red(2);
                         }),
-                        shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance).andThen(
-                            shooter.releaseCommand(calculateAimPose().getTranslation().getDistance(
-                                driveSim.getSimulatedDriveTrainPose().getTranslation()
-                            ))
-                        )
+
+                        //shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance),
+                        shooter.setVelocityCommand(76.23),
+                        chaneler.feedCommand(),
+                        indexer.feedCommand()
                     )
                 );
                 break;
@@ -381,5 +443,7 @@ public final class SubsystemManager {
         SmartDashboard.putString("Robot State", robotState.toString());
 
         aimPosePublisher.set(aimPose);
+        shootPosePublisher.set(new Pose2d(shootPose, new Rotation2d(0)));
+        
     }
 }
