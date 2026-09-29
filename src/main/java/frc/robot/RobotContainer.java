@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
+import frc.robot.subsystems.swerve.SwerveConfig;
 import frc.robot.utils.PathPlannerAutoBuilder;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -77,6 +79,8 @@ public class RobotContainer {
    * Establece el estado inicial a TRAVEL para permitir la conducción normal.
    */
   public void initializeTeleOp() {
+    SwerveConfig.orchestra.stop();
+    SwerveConfig.orchestra.clearInstruments();
     subsystemManager.executeState(RobotState.TRAVEL);
   }
 

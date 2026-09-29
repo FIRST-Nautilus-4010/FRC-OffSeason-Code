@@ -39,6 +39,7 @@ public class Drive extends Command {
     public static boolean assistTheta;
     public static boolean aimEnabled;
     public static boolean velocityHeadingEnabled;
+    public static boolean isSim = false;
 
     public static boolean onAimTolerance = false;
 
@@ -84,7 +85,20 @@ public class Drive extends Command {
 
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        controller = new HolonomicDriveController(
+        if (isSim) {
+            controller = new HolonomicDriveController(
+                new PIDController(
+                        10,
+                        SwerveConfig.I_X,
+                        0.1),
+                new PIDController(
+                        10,
+                        SwerveConfig.I_Y,
+                        0.1),
+                thetaController
+            );
+        } else {
+            controller = new HolonomicDriveController(
                 new PIDController(
                         SwerveConfig.P_X,
                         SwerveConfig.I_X,
@@ -94,7 +108,9 @@ public class Drive extends Command {
                         SwerveConfig.I_Y,
                         SwerveConfig.D_Y),
                 thetaController
-        );
+            );
+        }
+        
 
         addRequirements(swerve);
     }
