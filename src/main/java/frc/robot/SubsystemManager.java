@@ -418,13 +418,14 @@ public final class SubsystemManager {
                             //tejuino.all_leds_red(2);
                         }),
 
-                        //shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance),
-                        intake.pushCommand(),
-                        chaneler.feedCommand(),
-                        indexer.feedCommand(),
+                        //shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance)
+                        //    .andThen(shooter.setVelocityCommand(76.23)),
+                        shooter.setVelocityCommand(76.23),
                         new SequentialCommandGroup(
                             new WaitCommand(1),
-                            shooter.setVelocityCommand(76.23)
+                            intake.pushCommand(),
+                            chaneler.feedCommand(),
+                            indexer.feedCommand()
                         )
                     )
                 );
