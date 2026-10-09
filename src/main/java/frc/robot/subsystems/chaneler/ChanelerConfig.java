@@ -6,7 +6,7 @@ public class ChanelerConfig {
     // CAN ID
     // --------------------------------------------------------------------
 
-    public static final int CHANELER_TALONFX_ID = 5;
+    public static final int CHANELER_TALONFX_ID = 4;
 
     // --------------------------------------------------------------------
     // VELOCIDADES

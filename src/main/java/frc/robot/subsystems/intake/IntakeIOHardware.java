@@ -225,7 +225,7 @@ public class IntakeIOHardware implements IntakeIO {
         pivotConfig.CurrentLimits.StatorCurrentLimitEnable = true;
         pivotConfig.CurrentLimits.StatorCurrentLimit = 40;
         pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
-        pivotConfig.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        pivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         pivotConfig.Feedback.SensorToMechanismRatio = IntakeConfig.PIVOT_REDUCTION;
     }
 
@@ -375,11 +375,18 @@ public class IntakeIOHardware implements IntakeIO {
      */
     @Override
     public void setPosition(double desPositionRad) {
-        if (Math.abs(desPositionRad - positionPivot.getValueAsDouble()) > Math.toRadians(0.1)){
-            pivotMotorRight.setControl(positionRequest.withPosition(Units.radiansToRotations(desPositionRad)));
+        if (Math.abs(desPositionRad - positionPivot.getValueAsDouble()) > 0.03){
+            pivotMotorRight.setControl(positionRequest.withPosition(desPositionRad));
         } else {
             pivotMotorRight.stopMotor();
         }
+    }
+
+    @Override
+    public void setMaxVel(double velocity) {
+        pivotConfig.MotionMagic.MotionMagicCruiseVelocity = velocity;
+        pivotMotorLeft.getConfigurator().apply(pivotConfig);
+        pivotMotorRight.getConfigurator().apply(pivotConfig);
     }
 
     @Override

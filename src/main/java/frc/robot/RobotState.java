@@ -82,8 +82,5 @@ public enum RobotState  {
      * </ul>
      * Se accede mediante botón Y del controlador Xbox.
      */
-    TEST,
-    OUTAKE,
-    INTAKE_TEST,
-    SHOOT_MANUAL
+    SAVE_INTAKE
 }

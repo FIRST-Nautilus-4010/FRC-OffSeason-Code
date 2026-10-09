@@ -128,6 +128,9 @@ public class RobotContainer {
     
     final Trigger shooterTrigger = new Trigger(() -> driverJoystick.getRightTriggerAxis() > 0.5);
     shooterTrigger.onTrue(new InstantCommand(() -> subsystemManager.executeState(RobotState.SHOOT)));
+
+    final Trigger saveIntakeTrigger = new Trigger(() -> driverJoystick.getYButton());
+    saveIntakeTrigger.onTrue(new InstantCommand(() -> subsystemManager.executeState(RobotState.SAVE_INTAKE)));
   }  
   
 

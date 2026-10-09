@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.units.measure.Voltage;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -23,10 +24,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import static edu.wpi.first.units.Units.KilogramSquareMeters;
 import static edu.wpi.first.units.Units.Kilograms;
 import static edu.wpi.first.units.Units.Meters;
+import static edu.wpi.first.units.Units.Second;
+import static edu.wpi.first.units.Units.Seconds;
 import static edu.wpi.first.units.Units.Volts;
 
 import frc.robot.subsystems.chaneler.Chaneler;
@@ -366,7 +370,7 @@ public final class SubsystemManager {
                             //tejuino.all_leds_blue(1);
                             //tejuino.all_leds_blue(2);
                         }),
-                        intake.stowCommand(),
+                        intake.stopCommand(),
                         shooter.stopCommand(),
                         chaneler.stopCommand(),
                         indexer.stopCommand()
@@ -415,9 +419,32 @@ public final class SubsystemManager {
                         }),
 
                         //shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance),
-                        shooter.setVelocityCommand(76.23),
+                        intake.pushCommand(),
                         chaneler.feedCommand(),
-                        indexer.feedCommand()
+                        indexer.feedCommand(),
+                        new SequentialCommandGroup(
+                            new WaitCommand(1),
+                            shooter.setVelocityCommand(76.23)
+                        )
+                    )
+                );
+                break;
+            case SAVE_INTAKE:
+                CommandScheduler.getInstance().schedule(
+                    new ParallelCommandGroup(
+                        new InstantCommand(() -> {
+                            Drive.assistX = false;
+                            Drive.assistY = false;
+                            Drive.assistTheta = false;
+                            Drive.aimEnabled = false;
+                            Drive.onAimTolerance = false;
+                            //tejuino.all_leds_yellow(1);
+                            //tejuino.all_leds_yellow(2);
+                        }),
+                        intake.stowCommand(),
+                        shooter.stopCommand(),
+                        chaneler.stopCommand(),
+                        indexer.stopCommand()
                     )
                 );
                 break;

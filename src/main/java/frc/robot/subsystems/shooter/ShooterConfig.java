@@ -9,8 +9,8 @@ public final class ShooterConfig {
     // ====================================================================
     // IDs CAN
     // ====================================================================
-    public static final int SPIN_L_TALONFX_ID = 1;
-    public static final int SPIN_R_TALONFX_ID = 2;
+    public static final int SPIN_L_TALONFX_ID = 6;
+    public static final int SPIN_R_TALONFX_ID = 7;
 
     // ====================================================================
     // REDUCCIÓN

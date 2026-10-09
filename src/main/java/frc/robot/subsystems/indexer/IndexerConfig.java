@@ -6,8 +6,8 @@ public class IndexerConfig {
     // CAN IDs
     // --------------------------------------------------------------------
 
-    public static final int INDEXER_L_TALONFX_ID = 3;
-    public static final int INDEXER_R_TALONFX_ID = 4;
+    public static final int INDEXER_L_TALONFX_ID = 8;
+    public static final int INDEXER_R_TALONFX_ID = 9;
 
     // --------------------------------------------------------------------
     // VELOCIDADES

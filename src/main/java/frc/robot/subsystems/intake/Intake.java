@@ -44,6 +44,7 @@ public class Intake extends SubsystemBase{
      * @return Comando de movimiento a posición de recogida
      */
     public Command grabCommand() {
+        io.setMaxVel(IntakeConfig.MAGIC_MOTION_VELOCITY_STR);
         return new Move(IntakeConfig.GRAB_ANGLE_RAD, IntakeConfig.GRAB_SPIN_RPS, io, this);
     }
 
@@ -56,6 +57,7 @@ public class Intake extends SubsystemBase{
      * @return Comando de movimiento a posición de expulsión
      */
     public Command releaseCommand() {
+        io.setMaxVel(IntakeConfig.MAGIC_MOTION_VELOCITY_STR);
         return new Move(IntakeConfig.RELEASE_ANGLE_RAD, IntakeConfig.RELEASE_SPIN_RPS, io, this);
     }
 
@@ -68,7 +70,14 @@ public class Intake extends SubsystemBase{
      * @return Comando de movimiento a posición de reposo
      */
     public Command stowCommand() {
+        io.setMaxVel(IntakeConfig.MAGIC_MOTION_VELOCITY_STR);
         return new Move(IntakeConfig.STOW_ANGLE_RAD, IntakeConfig.STOW_SPIN_RPS, io, this);
+    }
+
+    public Command pushCommand() {
+        io.setMaxVel(IntakeConfig.PUSH_VEL);
+        return new Move(IntakeConfig.STOW_ANGLE_RAD, IntakeConfig.STOW_SPIN_RPS, io, this);
+
     }
 
     /**

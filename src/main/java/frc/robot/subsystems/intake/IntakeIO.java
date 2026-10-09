@@ -46,5 +46,7 @@ public interface IntakeIO {
 
     default void setVelocity(double velocityRps) {}
 
+    default void setMaxVel(double velocity) {}
+
     default void stop() {}
 }

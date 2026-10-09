@@ -17,13 +17,13 @@ public final class IntakeConfig {
     // ====================================================================
 
     /** ID del motor TalonFX del pivote izquierdo. */
-    public static final int PIVOT_L_TALONFX_ID = 7;
+    public static final int PIVOT_L_TALONFX_ID = 3;
     /** ID del motor TalonFX del pivote derecho. */
-    public static final int PIVOT_R_TALONFX_ID = 6;
+    public static final int PIVOT_R_TALONFX_ID = 5;
     /** ID del motor TalonFX del spinner izquierdo. */
-    public static final int SPIN_L_TALONFX_ID = 9;
+    public static final int SPIN_L_TALONFX_ID = 1;
     /** ID del motor TalonFX del spinner derecho. */
-    public static final int SPIN_R_TALONFX_ID = 8;
+    public static final int SPIN_R_TALONFX_ID = 2;
 
     // ====================================================================
     // LIMITES DE SOFTWARE
@@ -39,8 +39,8 @@ public final class IntakeConfig {
     // GEOMETRÍA Y CONVERSIONES
     // ====================================================================
 
-    public static final double PIVOT_REDUCTION = 3.75;
-    public static final double SPIN_REDUCTION = 1.6;
+    public static final double PIVOT_REDUCTION = 12.757512;
+    public static final double SPIN_REDUCTION = 1.1;
 
 
     // ====================================================================
@@ -48,13 +48,13 @@ public final class IntakeConfig {
     // ====================================================================
 
     /** Velocidad de crucero de Motion Magic (rot/s). */
-    public static final double MAGIC_MOTION_VELOCITY_STR = 93.33;
+    public static final double MAGIC_MOTION_VELOCITY_STR = 7.692;
 
     /** Aceleración de Motion Magic (rot/s²). */
-    public static final double MAGIC_MOTION_ACCELERATION_STR = 933.3;
+    public static final double MAGIC_MOTION_ACCELERATION_STR = 76.92;
 
     /** Jerk de Motion Magic (rot/s³). */
-    public static final double MAGIC_MOTION_JERK_STR = 9333.0;
+    public static final double MAGIC_MOTION_JERK_STR = 769.2;
 
     /** Ganancia kV del modo Motion Magic Expo (escala de velocidad). */
     public static final double MAGIC_MOTION_EXPO_KV_STR = 0.12;
@@ -124,19 +124,21 @@ public final class IntakeConfig {
     // ====================================================================
 
     /** Ángulo del pivote para grabbing (radianes). */
-    public static final double GRAB_ANGLE_RAD = 0;
+    public static final double GRAB_ANGLE_RAD = 1;
     /** Velocidad del spinner frontal para grabbing (RAD). */
     public static final double GRAB_SPIN_RPS = -366.5060529494;
 
     /** Ángulo del pivote para release (radianes). */
-    public static final double RELEASE_ANGLE_RAD = 0;
+    public static final double RELEASE_ANGLE_RAD = 1;
     /** Velocidad del spinner frontal para release (RAD). */
     public static final double RELEASE_SPIN_RPS = 100.0;
 
     /** Ángulo del pivote en reposo (radianes). */
-    public static final double STOW_ANGLE_RAD = Math.PI / 2;
+    public static final double STOW_ANGLE_RAD = 0.02;
     /** Velocidad del spinner frontal en reposo (RPS). */
     public static final double STOW_SPIN_RPS = 0.0;
+
+    public static final double PUSH_VEL = 0.2;
 
     public static final double MOMENT_OF_INERTIA_KG_M2 =  0.0402;
     public static final double COM_LENGTH_METERS = 0.2032;
