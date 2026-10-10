@@ -423,9 +423,11 @@ public final class SubsystemManager {
                         shooter.setVelocityCommand(76.23),
                         new SequentialCommandGroup(
                             new WaitCommand(1),
-                            intake.pushCommand(),
-                            chaneler.feedCommand(),
-                            indexer.feedCommand()
+                            new ParallelCommandGroup(
+                                intake.pushCommand(),
+                                chaneler.feedCommand(),
+                                indexer.feedCommand()
+                            )
                         )
                     )
                 );
