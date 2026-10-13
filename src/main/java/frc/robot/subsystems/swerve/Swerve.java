@@ -317,6 +317,12 @@ public class Swerve extends SubsystemBase {
         drive(fieldRelativeSpeeds, targetVector);
     }
 
+    public void driveFieldRelative(double xSpeed, double ySpeed, double rot, boolean accelerationLimitsDisabled) {
+        ChassisSpeeds fieldRelativeSpeeds =
+                ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getRotation2d());
+        drive(fieldRelativeSpeeds, accelerationLimitsDisabled);
+    }
+
     /**
      * Conduce con asistencia automática de alineación lateral.
      *

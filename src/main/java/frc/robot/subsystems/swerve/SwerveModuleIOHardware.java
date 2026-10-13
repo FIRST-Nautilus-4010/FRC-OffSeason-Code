@@ -180,11 +180,11 @@ public class SwerveModuleIOHardware implements SwerveModuleIO {
 
     private void configureMotors() {
         driveConfig.CurrentLimits.SupplyCurrentLimitEnable  = true;
-        driveConfig.CurrentLimits.SupplyCurrentLimit        = 70;
+        driveConfig.CurrentLimits.SupplyCurrentLimit        = 50;
         driveConfig.CurrentLimits.StatorCurrentLimitEnable  = true;
-        driveConfig.CurrentLimits.StatorCurrentLimit        = 120;
-        driveConfig.TorqueCurrent.PeakForwardTorqueCurrent  = 120;
-        driveConfig.TorqueCurrent.PeakReverseTorqueCurrent  = -120;
+        driveConfig.CurrentLimits.StatorCurrentLimit        = 50;
+        driveConfig.TorqueCurrent.PeakForwardTorqueCurrent  = 50;
+        driveConfig.TorqueCurrent.PeakReverseTorqueCurrent  = -50;
         driveConfig.MotorOutput.NeutralMode                 = NeutralModeValue.Brake;
         driveConfig.MotorOutput.Inverted                    = InvertedValue.Clockwise_Positive;
         driveConfig.Feedback.SensorToMechanismRatio         = 1.0 / SwerveConfig.ROT_2_M;

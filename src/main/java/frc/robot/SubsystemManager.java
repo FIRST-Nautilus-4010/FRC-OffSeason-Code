@@ -404,31 +404,45 @@ public final class SubsystemManager {
                             Translation2d shootPose = shootPose();
                             boolean isOnZone = shootPose != null;
 
-                            Drive.assistX = false;
-                            Drive.assistY = false;
                             if (isOnZone) {
                                 Drive.targetPose = new Pose2d(shootPose, new Rotation2d(0));
+                                Drive.assistX = true;
+                                Drive.assistY = true;
                             } else {
                                 Drive.targetPose = new Pose2d(calculateAimPose().getTranslation(), new Rotation2d(0));
+                                Drive.assistX = false;
+                                Drive.assistY = false;
                             }
-                            Drive.assistTheta = false;
-                            Drive.aimEnabled = false;
+                            Drive.assistTheta = true;
+                            Drive.aimEnabled = true;
                             Drive.onAimTolerance = false;
                             //tejuino.all_leds_red(1);
                             //tejuino.all_leds_red(2);
-                        }),
+                        })//,
 
                         //shooter.setVelocityCommand(0).until(() -> Drive.onAimTolerance)
-                        //    .andThen(shooter.setVelocityCommand(76.23)),
-                        shooter.setVelocityCommand(76.23),
-                        new SequentialCommandGroup(
-                            new WaitCommand(1),
-                            new ParallelCommandGroup(
-                                intake.pushCommand(),
-                                chaneler.feedCommand(),
-                                indexer.feedCommand()
-                            )
-                        )
+                        //    .andThen(
+                        //    new ParallelCommandGroup(
+                        //        shooter.setVelocityCommand(76.23),
+                        //        new SequentialCommandGroup(
+                        //            new WaitCommand(1),
+                        //            new ParallelCommandGroup(
+                        //                intake.pushCommand(),
+                        //                chaneler.feedCommand(),
+                        //                indexer.feedCommand()
+                        //            )
+                        //        )
+                        //    )    
+                        //),
+                        //shooter.setVelocityCommand(76.23),
+                        //new SequentialCommandGroup(
+                        //    new WaitCommand(1),
+                        //    new ParallelCommandGroup(
+                        //        intake.pushCommand(),
+                        //        chaneler.feedCommand(),
+                        //        indexer.feedCommand()
+                        //    )
+                        //)
                     )
                 );
                 break;

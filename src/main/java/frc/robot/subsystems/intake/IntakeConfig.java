@@ -48,7 +48,7 @@ public final class IntakeConfig {
     // ====================================================================
 
     /** Velocidad de crucero de Motion Magic (rot/s). */
-    public static final double MAGIC_MOTION_VELOCITY_STR = 7.692;
+    public static final double MAGIC_MOTION_VELOCITY_STR = 7.692/16;
 
     /** Aceleración de Motion Magic (rot/s²). */
     public static final double MAGIC_MOTION_ACCELERATION_STR = 76.92;

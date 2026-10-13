@@ -230,19 +230,18 @@ public final class SwerveConfig {
         new Translation2d(-TRACKWIDTH / 2.0, WHEELBASE / 2.0),   // Back Left
         new Translation2d(-TRACKWIDTH / 2.0, -WHEELBASE / 2.0));  // Back Right
 
-    public static final String LIMELIGHT_1 = "limelight-1";
-    public static final String LIMELIGHT_2 = "limelight-2";
+    public static final String LIMELIGHT_1 = "limelight-four";
 
-    public static final double P_X = 25;
+    public static final double P_X = 10;
     public static final double I_X = 0.0;
-    public static final double D_X = 0.25;
+    public static final double D_X = 0.1;
 
-    public static final double P_Y = 25;
+    public static final double P_Y = 10;
     public static final double I_Y = 0.0;
-    public static final double D_Y = 0.25;
+    public static final double D_Y = 0.1;
 
-    public static final double P_Z = 10;
-    public static final double I_Z = 0.0;
+    public static final double P_Z = 1;
+    public static final double I_Z = 0.1;
     public static final double D_Z = 0.0;
     
     /** Velocidad angular máxima permitida en auton (rad/s). */

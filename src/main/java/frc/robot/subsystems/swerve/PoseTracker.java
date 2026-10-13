@@ -78,6 +78,8 @@ public class PoseTracker {
 
     /** Flag para habilitar/deshabilitar fusión de mediciones de visión. */
     private boolean visionOn = true;
+
+    private boolean seedingLimelightIMU = false;
     /**
      * Crea el estimador de pose del robot.
      *
@@ -197,6 +199,12 @@ public class PoseTracker {
                 swerve.getSwerveModulePos(),
                 pose
         );
+
+        for (String ll : new String[]{SwerveConfig.LIMELIGHT_1}) {
+            LimelightHelpers.SetRobotOrientation(ll, pose.getRotation().getDegrees(), 0, 0, 0, 0, 0);
+            LimelightHelpers.SetIMUMode(ll, 1); // siembra el IMU interno con el yaw que acabas de mandar
+        }
+        seedingLimelightIMU = true;
     }
 
     // ====================================================================
@@ -335,8 +343,10 @@ public class PoseTracker {
 
         double xyStd = 0.03 * distanceFactor * tagFactor * gyroFactor;
 
+        double gyroStd = 0.01 * gyroFactor;
+
         poseEstimator.setVisionMeasurementStdDevs(
-                VecBuilder.fill(xyStd, xyStd, 999999)
+                VecBuilder.fill(xyStd, xyStd, gyroStd)
         );
     }
 
@@ -407,7 +417,7 @@ public class PoseTracker {
 
         double tx = LimelightHelpers.getTX(limelight);
 
-        double center = tx / 29.8;
+        double center = tx / 31;
 
         double width = 0.35;
 
@@ -457,11 +467,16 @@ public class PoseTracker {
         // 3. Procesamiento de visión (AprilTags / Limelight)
         if (visionOn) {
 
+            if (seedingLimelightIMU) {
+                LimelightHelpers.SetIMUMode(SwerveConfig.LIMELIGHT_1, 4);
+                seedingLimelightIMU = false;
+            }
+
             applySmartCrop(SwerveConfig.LIMELIGHT_1);
-            applySmartCrop(SwerveConfig.LIMELIGHT_2);
+            //applySmartCrop(SwerveConfig.LIMELIGHT_2);
 
             processVision(SwerveConfig.LIMELIGHT_1);
-            processVision(SwerveConfig.LIMELIGHT_2);
+            //  processVision(SwerveConfig.LIMELIGHT_2);
         }
 
         // 4. Publicación a dashboards y NetworkTables
@@ -475,4 +490,5 @@ public class PoseTracker {
         // Actualiza la simulación del swerve con la pose estimada para mantenerla sincronizada
         Logger.recordOutput("FieldSimulation/RobotPosition", swerveSim.getSimulatedDriveTrainPose());
     }
+    
 }

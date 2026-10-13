@@ -7,6 +7,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -186,7 +187,9 @@ public class Drive extends Command {
         }
 
         Pose2d poseForController =
-                new Pose2d(baseTarget.getTranslation(), desiredRotation);
+                new Pose2d(baseTarget.getTranslation().minus(new Translation2d(4.608, 4.015))
+                    .times(1.17)
+                    .plus(new Translation2d(4.608, 4.015)), desiredRotation);
 
         /* ---------------- Salida automática ---------------- */
 
@@ -218,7 +221,11 @@ public class Drive extends Command {
 
         /* ---------------- Drive (siempre field-relative) ---------------- */
 
-        swerve.driveFieldRelative(vx * scale, vy * scale, omega);
+        if (assistX || assistY) {
+            swerve.driveFieldRelative(vx * scale, vy * scale, omega, true);
+        } else {
+            swerve.driveFieldRelative(vx * scale, vy * scale, omega);
+        }
 
         // Opción para resetear yaw del gyro (por ejemplo, botón en el joystick).
         if (resetYaw.get()) {
